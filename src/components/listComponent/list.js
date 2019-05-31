@@ -2,17 +2,21 @@ import React from 'react';
 
 const List = ({
   todos,
-  toggle,
+  toggleTodo,
 }) => {
   console.log(todos);
+
   const listItems = todos.map((todo) =>
-    <div>
-      <li key={todo.id} style={{
+    <li
+      key={todo.id}
+      // onClick={() => console.log(todo.id)}
+      onClick={() => toggleTodo(todo.id)}
+      style={{
         textDecoration: todo.completed ? 'line-through' : 'none'
-      }}>
-        <button onClick={() => toggle(todo.id)}>{todo.text}</button>
-      </li>
-    </div>
+      }}
+    >
+      {todo.text}
+    </li>
   );
   return (
     <div>

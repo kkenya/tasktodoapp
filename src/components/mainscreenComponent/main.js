@@ -23,7 +23,7 @@ const Main = () => {
       />
       <List
         todos={todos}
-        toggle={toggleTodo}
+        toggleTodo={toggleTodo}
       />
     </div>
   );
