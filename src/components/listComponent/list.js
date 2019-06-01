@@ -2,16 +2,15 @@ import React from 'react';
 
 const List = ({
   todos,
-  history,
-  toggleTodo,
-  set,
-  active,
+  toggleCompleted,
   filterCompleted,
+  filterNotCompleted,
+  getHistory,
 }) => {
   const listItems = todos.map((todo) =>
     <li
       key={todo.id}
-      onClick={() => toggleTodo(todo.id)}
+      onClick={() => toggleCompleted(todo.id)}
       style={{
         textDecoration: todo.completed ? 'line-through' : 'none'
       }}
@@ -26,8 +25,8 @@ const List = ({
         {listItems}
       </ul>
       <button onClick={filterCompleted}>完了</button>
-      <button onClick={() => set(history)}>全て</button>
-      <button onClick={() => set(active)}>未完了</button>
+      <button onClick={getHistory}>全て</button>
+      <button onClick={filterNotCompleted}>未完了</button>
     </div>
   );
 }

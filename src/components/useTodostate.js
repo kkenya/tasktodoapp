@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 let initialid = 0;
 
 const useTodostate = () => {
   const [todos, setTodos] = useState([]);
   const [history, setHistory] = useState([]);
-  const [active, setActive] = useState([]);
 
   return {
     todos,
     history,
-    active,
     addTodo: todoText => {
       const todo = {
         // id: Date.now(),
         id: initialid++,
         text: todoText,
         completed: false,
+        deleted: false,
       };
-
       setTodos([
         ...todos,
         todo,
@@ -28,7 +26,7 @@ const useTodostate = () => {
         todo,
       ]);
     },
-    toggleTodo: id => {
+    toggleCompleted: id => {
       const toggled = history.map(todo =>
         (todo.id === id)
           ? { ...todo, completed: !todo.completed }
@@ -36,16 +34,31 @@ const useTodostate = () => {
       )
       setHistory(toggled);
       setTodos(toggled);
-      const active = history.filter(t => t.completed === false)
-      setActive(active);
+    },
+    toggleDeleted: id => {
+      const toggled = history.map(todo => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            deleted: !todo.deleted
+          };
+        }
+        return todo;
+      });
+      setHistory(toggled);
+      setTodos(toggled);
     },
     filterCompleted: () => {
-      const completed = history.filter(t => t.completed === true);
+      const completed = history.filter(todo => todo.completed === true);
       setTodos(completed);
     },
-    set: todos => {
-      setTodos(todos);
-    }
+    filterNotCompleted: () => {
+      const completed = history.filter(todo => todo.completed === false);
+      setTodos(completed);
+    },
+    getHistory: () => {
+      setTodos(history);
+    },
   };
 
 };

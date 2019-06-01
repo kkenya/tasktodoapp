@@ -3,27 +3,15 @@ import List from '../listComponent/list';
 import Input from '../inputComponent/input';
 import useTodostate from '../useTodostate';
 
-let finallyactive;
-
 const Main = () => {
   const {
     todos,
-    history,
-    filtered,
     addTodo,
-    toggleTodo,
-filterCompleted,
-    set,
-    active,
+    toggleCompleted,
+    filterCompleted,
+    filterNotCompleted,
+    getHistory,
   } = useTodostate([]);
-
-  if (active.length === 0) {
-    finallyactive = history;
-  } else {
-    finallyactive = active;
-  }
-
-  // console.log(returnCompleted);
 
   return (
     <div>
@@ -38,11 +26,10 @@ filterCompleted,
       />
       <List
         todos={todos}
-        history={history}
-        toggleTodo={toggleTodo}
-        set={set}
-        active={finallyactive}
+        toggleCompleted={toggleCompleted}
         filterCompleted={filterCompleted}
+        filterNotCompleted={filterNotCompleted}
+        getHistory={getHistory}
       />
     </div>
   );
