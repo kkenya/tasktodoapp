@@ -8,15 +8,17 @@ let finallyactive;
 const Main = () => {
   const {
     todos,
+    history,
+    filtered,
     addTodo,
     toggleTodo,
+filterCompleted,
     set,
-    completed,
     active,
   } = useTodostate([]);
 
   if (active.length === 0) {
-    finallyactive = todos;
+    finallyactive = history;
   } else {
     finallyactive = active;
   }
@@ -36,11 +38,11 @@ const Main = () => {
       />
       <List
         todos={todos}
+        history={history}
         toggleTodo={toggleTodo}
         set={set}
-        all={todos}
-        completed={completed}
         active={finallyactive}
+        filterCompleted={filterCompleted}
       />
     </div>
   );

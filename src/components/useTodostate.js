@@ -4,39 +4,47 @@ let initialid = 0;
 
 const useTodostate = () => {
   const [todos, setTodos] = useState([]);
-  const [completed, setCompleted] = useState([]);
+  const [history, setHistory] = useState([]);
   const [active, setActive] = useState([]);
 
   return {
     todos,
-    completed,
+    history,
     active,
     addTodo: todoText => {
+      const todo = {
+        // id: Date.now(),
+        id: initialid++,
+        text: todoText,
+        completed: false,
+      };
+
       setTodos([
         ...todos,
-        {
-          // id: Date.now(),
-          id: initialid++,
-          text: todoText,
-          completed: false,
-        }
+        todo,
+      ]);
+      setHistory([
+        ...history,
+        todo,
       ]);
     },
     toggleTodo: id => {
-      console.log(id);
-      const toggled = todos.map(todo =>
+      const toggled = history.map(todo =>
         (todo.id === id)
           ? { ...todo, completed: !todo.completed }
           : todo
       )
+      setHistory(toggled);
       setTodos(toggled);
-      const active = todos.filter(t => t.completed === false)
+      const active = history.filter(t => t.completed === false)
       setActive(active);
-      const completed = todos.filter(t => t.completed === true)
-      setCompleted(completed);
     },
-    set: element => {
-      setTodos(element);
+    filterCompleted: () => {
+      const completed = history.filter(t => t.completed === true);
+      setTodos(completed);
+    },
+    set: todos => {
+      setTodos(todos);
     }
   };
 
