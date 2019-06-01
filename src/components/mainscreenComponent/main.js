@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import List from '../listComponent/list';
 import Input from '../inputComponent/input';
 import useTodostate from '../useTodostate';
+
+let finallyactive;
 
 const Main = () => {
   const {
     todos,
     addTodo,
     toggleTodo,
+    set,
+    completed,
+    active,
   } = useTodostate([]);
+
+  if (active.length === 0) {
+    finallyactive = todos;
+  } else {
+    finallyactive = active;
+  }
+
+  // console.log(returnCompleted);
 
   return (
     <div>
@@ -24,6 +37,10 @@ const Main = () => {
       <List
         todos={todos}
         toggleTodo={toggleTodo}
+        set={set}
+        all={todos}
+        completed={completed}
+        active={finallyactive}
       />
     </div>
   );

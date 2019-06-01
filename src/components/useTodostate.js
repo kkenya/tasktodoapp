@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 
 let initialid = 0;
 
-export default initialTodo => {
-  const [todos, setTodos] = useState(initialTodo);
+const useTodostate = () => {
+  const [todos, setTodos] = useState([]);
+  const [completed, setCompleted] = useState([]);
+  const [active, setActive] = useState([]);
 
   return {
     todos,
+    completed,
+    active,
     addTodo: todoText => {
       setTodos([
         ...todos,
@@ -16,7 +20,7 @@ export default initialTodo => {
           text: todoText,
           completed: false,
         }
-      ])
+      ]);
     },
     toggleTodo: id => {
       console.log(id);
@@ -26,8 +30,16 @@ export default initialTodo => {
           : todo
       )
       setTodos(toggled);
+      const active = todos.filter(t => t.completed === false)
+      setActive(active);
+      const completed = todos.filter(t => t.completed === true)
+      setCompleted(completed);
     },
+    set: element => {
+      setTodos(element);
+    }
   };
 
-
 };
+
+export default useTodostate;
