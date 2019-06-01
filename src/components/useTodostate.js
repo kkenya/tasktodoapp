@@ -1,30 +1,66 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-export default initialTodo => {
-  const [todos, setTodos] = useState(initialTodo);
-  const [allelement, setAllelement] = useState([]);
-  const [deletedelement, setDeletedelement] = useState([]);
-  const [activeelement, setActiveelement] = useState([]);
+let initialid = 0;
+
+const useTodostate = () => {
+  const [todos, setTodos] = useState([]);
+  const [history, setHistory] = useState([]);
 
   return {
     todos,
-    deletedelement,
-    allelement,
-    activeelement,
+    history,
     addTodo: todoText => {
-      setTodos([...todos, todoText]);
-      setAllelement([...allelement, todoText]);
+      const todo = {
+        // id: Date.now(),
+        id: initialid++,
+        text: todoText,
+        completed: false,
+        deleted: false,
+      };
+      setTodos([
+        ...todos,
+        todo,
+      ]);
+      setHistory([
+        ...history,
+        todo,
+      ]);
     },
-    deleteTodo: deleteIndex => {
-      const deletednewTodo = todos.filter((todo, index) => index !== deleteIndex);
-      setActiveelement(deletednewTodo);
-      setTodos(deletednewTodo);
-      const deleted = todos.filter((todo, index) => index === deleteIndex);
-      setDeletedelement([...deletedelement, deleted]);
+    toggleCompleted: id => {
+      const toggled = history.map(todo =>
+        (todo.id === id)
+          ? { ...todo, completed: !todo.completed }
+          : todo
+      )
+      setHistory(toggled);
+      setTodos(toggled);
     },
-    setTodo: element => {
-      setTodos(element);
+    toggleDeleted: id => {
+      const toggled = history.map(todo => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            deleted: !todo.deleted
+          };
+        }
+        return todo;
+      });
+      setHistory(toggled);
+      setTodos(toggled);
+    },
+    filterCompleted: () => {
+      const completed = history.filter(todo => todo.completed === true);
+      setTodos(completed);
+    },
+    filterNotCompleted: () => {
+      const completed = history.filter(todo => todo.completed === false);
+      setTodos(completed);
+    },
+    getHistory: () => {
+      setTodos(history);
     },
   };
 
 };
+
+export default useTodostate;

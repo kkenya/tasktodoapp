@@ -1,20 +1,32 @@
 import React from 'react';
 
-const List = ({ todos, deleteTd, set, deletedelements, allelements, activeelements }) => {
-  const listItems = todos.map((todo, index) =>
-    <div>
-      <li key={index}>{todo}</li>
-      <button onClick={() => deleteTd(index)}>delete</button>
-    </div>
+const List = ({
+  todos,
+  toggleCompleted,
+  filterCompleted,
+  filterNotCompleted,
+  getHistory,
+}) => {
+  const listItems = todos.map((todo) =>
+    <li
+      key={todo.id}
+      onClick={() => toggleCompleted(todo.id)}
+      style={{
+        textDecoration: todo.completed ? 'line-through' : 'none'
+      }}
+    >
+      {todo.text}
+    </li>
   );
+
   return (
     <div>
       <ul>
         {listItems}
       </ul>
-      <button onClick={() => set(deletedelements)}>完了</button>
-      <button onClick={() => set(allelements)}>全て</button>
-      <button onClick={() => set(activeelements)}>未完了</button>
+      <button onClick={filterCompleted}>完了</button>
+      <button onClick={getHistory}>全て</button>
+      <button onClick={filterNotCompleted}>未完了</button>
     </div>
   );
 }
